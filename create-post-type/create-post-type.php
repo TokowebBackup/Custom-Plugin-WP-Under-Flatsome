@@ -98,7 +98,7 @@ function cfu_frontend_display($atts)
                     <li class="list-group-item"><strong>Tipe File:</strong> <?php echo esc_html($file_type); ?></li>
                     <li class="list-group-item"><strong>Tanggal Upload:</strong> <?php echo get_the_date('', $post); ?></li>
                 </ul>
-                <a class="btn btn-primary mt-3" href="<?php echo esc_url($file_url); ?>" download>Download File</a>
+                <a id="download-file" class="btn btn-primary mt-3" href="<?php echo esc_url($file_url); ?>" download style="display: none;">Download File</a>
             </div>
         </div>
     </div>
@@ -127,10 +127,10 @@ function cfu_frontend_display($atts)
             max-width: 80vw;
             margin: 2rem auto;
             padding: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            /* border: 1px solid #ddd; */
+            /* border-radius: 8px; */
             background: #fff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); */
         }
 
         .cfu-preview {
