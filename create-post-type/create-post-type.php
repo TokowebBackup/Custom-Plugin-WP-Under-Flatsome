@@ -185,4 +185,31 @@ function cfu_frontend_display($atts)
     return ob_get_clean();
 }
 
+
+// Enqueue SweetAlert and custom script
+function cfu_enqueue_sweetalert_script()
+{
+?>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const downloadBtn = document.querySelector('.cfu-info a.btn');
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', function(e) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Download Dimulai',
+                        text: 'File sedang diunduh. Cek folder unduhan Anda.',
+                        timer: 5000,
+                        showConfirmButton: false
+                    });
+                });
+            }
+        });
+    </script>
+<?php
+}
+add_action('wp_footer', 'cfu_enqueue_sweetalert_script');
+
+
 add_shortcode('cfu_file', 'cfu_frontend_display');
