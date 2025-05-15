@@ -210,15 +210,29 @@ function cfu_enqueue_sweetalert_script()
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.25);
+            /* Lebih terang */
             padding: 2rem;
             border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            /* Kurangi kegelapan */
             max-width: 90%;
             width: 500px;
             backdrop-filter: blur(15px);
             color: #fff;
             font-family: 'Poppins', sans-serif;
+        }
+
+        #cfu-popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            /* Lebih transparan */
+            z-index: 9998;
         }
 
         #cfu-ninja-form-popup .close-btn {
@@ -228,7 +242,7 @@ function cfu_enqueue_sweetalert_script()
             font-weight: bold;
             margin-top: -10px;
             margin-right: -10px;
-            color: #fff;
+            color: #000000;
             transition: color 0.3s ease;
         }
 
@@ -239,19 +253,14 @@ function cfu_enqueue_sweetalert_script()
         #cfu-ninja-form-popup h2 {
             margin-bottom: 1rem;
             font-size: 1.5rem;
-            color: #ffffff;
+            color: #000000;
         }
 
-        #cfu-popup-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 9998;
+        #cfu-ninja-form-popup p {
+            color: #000000;
         }
+
+
 
         /* Form fields required note */
         .custom-nf-form .nf-form-fields-required {
@@ -291,7 +300,7 @@ function cfu_enqueue_sweetalert_script()
             display: block;
             margin-bottom: 0.4rem;
             font-weight: 500;
-            color: #fff;
+            color: #000000;
             /* Change label color */
         }
 
@@ -302,7 +311,7 @@ function cfu_enqueue_sweetalert_script()
             border: none;
             outline: none;
             background: rgba(255, 255, 255, 0.15);
-            color: #fff;
+            color: #000000;
             transition: background 0.3s ease, box-shadow 0.3s ease;
             font-size: 1rem;
             font-family: inherit;
@@ -315,7 +324,7 @@ function cfu_enqueue_sweetalert_script()
             border: none;
             outline: none;
             background: rgba(255, 255, 255, 0.15);
-            color: #fff;
+            color: #000000;
             transition: background 0.3s ease, box-shadow 0.3s ease;
             font-size: 1rem;
             font-family: inherit;
@@ -334,7 +343,7 @@ function cfu_enqueue_sweetalert_script()
             border: none;
             border-radius: 10px;
             background: linear-gradient(135deg, rgb(23, 4, 187), rgb(92, 103, 255));
-            color: #fff;
+            color: #ffffff;
             font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
@@ -387,7 +396,6 @@ function cfu_enqueue_sweetalert_script()
         <p>
             Silahkan isi data berikut untuk unduh profile perusahaan SKI Birojasa
         </p>
-        <p><small style="color: crimson;">Alamat email Anda tidak akan dipublikasikan. Ruas yang wajib ditandai *</small></p>
         <!-- Wrap ninja form with custom class for styling -->
         <div class="custom-nf-form">
             <?php echo $ninja_form_popup; ?>
@@ -414,8 +422,8 @@ function cfu_enqueue_sweetalert_script()
                         <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
                             <img src="https://ski-birojasa.com/wp-content/uploads/2025/05/363c2ec45f7668e82807a0c053d1e1d0.gif" 
                                 alt="Loading..." 
-                                style="width: 250px; height: 250px;">
-                            <div style="color: #fff; margin-top: 10px;">Memuat...</div>
+                                style="width: 350px; height: 350px;">
+                            <div style="color: #fff; margin-top: -5rem; font-weight: 800; font-size: 1.3rem;">Memuat...</div>
                         </div>
                     `;
 

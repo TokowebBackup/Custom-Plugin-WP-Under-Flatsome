@@ -3,7 +3,7 @@
 Plugin Name: Custom WC Tabs with Location Filter
 Description: Menampilkan produk berdasarkan lokasi dengan tab navigasi dan loader.
 Version: 1.1
-Author: Puji Ermanto
+Author: Puji Ermanto<dev@codesyariah.co.id> | AKA Mamam Yuk | AKA Janji Mas Joni
 */
 
 function custom_wc_tabs_shortcode()
@@ -15,9 +15,11 @@ function custom_wc_tabs_shortcode()
         /* (Copy CSS dari contoh sebelumnya) */
         .custom-wc-tabs {
             position: relative;
+            width: 100%;
+            display: block;
         }
 
-        .custom-wc-tabs ul.tabs {
+        /* .custom-wc-tabs ul.tabs {
             display: flex;
             overflow-x: auto;
             white-space: nowrap;
@@ -25,6 +27,7 @@ function custom_wc_tabs_shortcode()
             padding: 0;
             margin: 0 0 20px 0;
             scrollbar-width: thin;
+            background-color: rgba(255, 255, 255, 0.2);
         }
 
         .custom-wc-tabs ul.tabs::-webkit-scrollbar {
@@ -66,6 +69,46 @@ function custom_wc_tabs_shortcode()
             border-radius: 3px 3px 0 0;
             background: linear-gradient(90deg, #007bff, #00c6ff);
             animation: slideIn 0.4s forwards;
+        } */
+        .custom-wc-tabs ul.tabs {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px 0;
+            margin: 0 0 20px 0;
+            scrollbar-width: thin;
+            gap: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .custom-wc-tabs ul.tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .custom-wc-tabs ul.tabs li {
+            list-style: none;
+            padding: 10px 16px;
+            cursor: pointer;
+            background-color: #ffffff;
+            color: #000;
+            font-weight: 700;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+        }
+
+        .custom-wc-tabs ul.tabs li:hover {
+            background-color: #f0f0f0;
+        }
+
+        .custom-wc-tabs ul.tabs li.active {
+            background: linear-gradient(90deg, #007bff, #00c6ff);
+            /* biru terang */
+            color: #ffffff;
+            border-color: linear-gradient(90deg, #007bff, #00c6ff);
         }
 
         @keyframes slideIn {
@@ -84,10 +127,19 @@ function custom_wc_tabs_shortcode()
             }
         }
 
+        .custom-wc-tabs .product-wrapper {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 15px;
+            clear: both;
+            box-sizing: border-box;
+        }
 
         .custom-wc-tabs .product-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            /* grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); */
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            /* ubah dari 240 jadi 180 */
             gap: 20px;
         }
 
@@ -195,21 +247,26 @@ function custom_wc_tabs_shortcode()
                 transform: rotate(360deg);
             }
         }
+
+        @media (max-width: 768px) {
+            .custom-wc-tabs .product-list {
+                grid-template-columns: 1fr !important;
+            }
+        }
     </style>
 
     <div class="custom-wc-tabs">
         <ul class="tabs">
             <li class="tab-button active" data-location="all">All</li>
             <?php
-            // Ambil term "Lokasi" sebagai parent
             $lokasi_parent = get_term_by('name', 'Lokasi', 'product_cat');
 
             if ($lokasi_parent && !is_wp_error($lokasi_parent)) {
-                $terms = get_terms(array(
+                $terms = get_terms([
                     'taxonomy' => 'product_cat',
                     'hide_empty' => true,
-                    'parent' => $lokasi_parent->term_id // ambil anak dari "Lokasi"
-                ));
+                    'parent' => $lokasi_parent->term_id
+                ]);
 
                 foreach ($terms as $term) {
                     echo '<li class="tab-button" data-location="' . esc_attr($term->slug) . '">' . esc_html($term->name) . '</li>';
@@ -222,41 +279,45 @@ function custom_wc_tabs_shortcode()
             <div class="spinner"></div>
         </div>
 
-        <div class="product-list">
-            <?php
-            $args = array('post_type' => 'product', 'posts_per_page' => -1, 'post_status' => 'publish');
-            $loop = new WP_Query($args);
-            while ($loop->have_posts()) : $loop->the_post();
-                global $product;
-                $terms = get_the_terms(get_the_ID(), 'product_cat');
-                $location_slug = '';
-                if ($terms && !is_wp_error($terms)) {
-                    $location_slug = $terms[0]->slug;
-                }
-            ?>
-                <div class="product-card" data-location="<?php echo esc_attr($location_slug); ?>">
-                    <a href="<?php the_permalink(); ?>">
-                        <div class="image-wrapper">
-                            <?php if (has_post_thumbnail()) {
-                                the_post_thumbnail('medium');
-                            } ?>
-                            <?php if ($terms && !is_wp_error($terms)) : ?>
-                                <div class="category-badge"><?php echo esc_html($terms[0]->name); ?></div>
-                            <?php endif; ?>
-                        </div>
-                        <h3><?php the_title(); ?></h3>
-                    </a>
-                    <div class="price"><?php echo $product->get_price_html(); ?></div>
-                </div>
-            <?php endwhile;
-            wp_reset_postdata(); ?>
+        <div class="product-wrapper">
+            <div class="product-list">
+                <?php
+                $args = [
+                    'post_type' => 'product',
+                    'posts_per_page' => 4,
+                    'post_status' => 'publish'
+                ];
+                $loop = new WP_Query($args);
+                while ($loop->have_posts()) : $loop->the_post();
+                    global $product;
+                    $terms = get_the_terms(get_the_ID(), 'product_cat');
+                    $location_slug = $terms && !is_wp_error($terms) ? $terms[0]->slug : '';
+                ?>
+                    <div class="product-card" data-location="<?php echo esc_attr($location_slug); ?>">
+                        <a href="<?php the_permalink(); ?>">
+                            <div class="image-wrapper">
+                                <?php if (has_post_thumbnail()) {
+                                    the_post_thumbnail('medium');
+                                } ?>
+                                <?php if ($terms && !is_wp_error($terms)) : ?>
+                                    <div class="category-badge"><?php echo esc_html($terms[0]->name); ?></div>
+                                <?php endif; ?>
+                            </div>
+                            <h3><?php the_title(); ?></h3>
+                        </a>
+                        <div class="price"><?php echo $product->get_price_html(); ?></div>
+                    </div>
+                <?php endwhile;
+                wp_reset_postdata(); ?>
+            </div>
         </div>
     </div>
 
+    <!-- JavaScript AJAX -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const tabs = document.querySelectorAll('.custom-wc-tabs .tab-button');
-            const cards = document.querySelectorAll('.custom-wc-tabs .product-card');
+            const productList = document.querySelector('.custom-wc-tabs .product-list');
             const loader = document.querySelector('.product-loader');
 
             tabs.forEach(tab => {
@@ -265,26 +326,87 @@ function custom_wc_tabs_shortcode()
                     this.classList.add('active');
 
                     const location = this.getAttribute('data-location');
-
                     loader.style.display = 'flex';
 
-                    setTimeout(() => {
-                        cards.forEach(card => {
-                            const cardLocation = card.getAttribute('data-location');
-                            if (location === 'all' || cardLocation === location) {
-                                card.style.display = 'flex';
-                            } else {
-                                card.style.display = 'none';
-                            }
+                    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: new URLSearchParams({
+                                action: 'get_products_by_location',
+                                location: location
+                            })
+                        })
+                        .then(response => response.text())
+                        .then(data => {
+                            productList.innerHTML = data;
+                            loader.style.display = 'none';
                         });
-
-                        loader.style.display = 'none';
-                    }, 300);
                 });
             });
         });
     </script>
-<?php
+
+
+    <?php
     return ob_get_clean();
 }
 add_shortcode('custom_wc_tabs', 'custom_wc_tabs_shortcode');
+
+
+add_action('wp_ajax_get_products_by_location', 'get_products_by_location_callback');
+add_action('wp_ajax_nopriv_get_products_by_location', 'get_products_by_location_callback');
+
+function get_products_by_location_callback()
+{
+    $location_slug = sanitize_text_field($_POST['location']);
+    $args = [
+        'post_type' => 'product',
+        'posts_per_page' => 4,
+        'post_status' => 'publish'
+    ];
+
+    if ($location_slug !== 'all') {
+        $args['tax_query'] = [
+            [
+                'taxonomy' => 'product_cat',
+                'field' => 'slug',
+                'terms' => $location_slug
+            ]
+        ];
+    }
+
+    $query = new WP_Query($args);
+    ob_start();
+
+    if ($query->have_posts()) :
+        while ($query->have_posts()) : $query->the_post();
+            global $product;
+            $terms = get_the_terms(get_the_ID(), 'product_cat');
+            $location_slug = $terms && !is_wp_error($terms) ? $terms[0]->slug : '';
+    ?>
+            <div class="product-card" data-location="<?php echo esc_attr($location_slug); ?>">
+                <a href="<?php the_permalink(); ?>">
+                    <div class="image-wrapper">
+                        <?php if (has_post_thumbnail()) {
+                            the_post_thumbnail('medium');
+                        } ?>
+                        <?php if ($terms && !is_wp_error($terms)) : ?>
+                            <div class="category-badge"><?php echo esc_html($terms[0]->name); ?></div>
+                        <?php endif; ?>
+                    </div>
+                    <h3><?php the_title(); ?></h3>
+                </a>
+                <div class="price"><?php echo $product->get_price_html(); ?></div>
+            </div>
+<?php
+        endwhile;
+    else :
+        echo '<p>Tidak ada produk ditemukan.</p>';
+    endif;
+
+    wp_reset_postdata();
+    echo ob_get_clean();
+    wp_die();
+}
