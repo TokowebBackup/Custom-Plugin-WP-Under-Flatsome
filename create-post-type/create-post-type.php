@@ -144,6 +144,12 @@ function cfu_frontend_display($atts)
             border-radius: 4px;
         }
 
+        .cfu-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
         .cfu-info {
             padding: 0 1rem;
         }
