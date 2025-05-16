@@ -11,8 +11,6 @@ function custom_wc_tabs_shortcode()
     ob_start();
 ?>
     <style>
-        /* CSS disini */
-        /* (Copy CSS dari contoh sebelumnya) */
         .custom-wc-tabs {
             position: relative;
             width: 100%;
@@ -70,7 +68,7 @@ function custom_wc_tabs_shortcode()
             background: linear-gradient(90deg, #007bff, #00c6ff);
             animation: slideIn 0.4s forwards;
         } */
-        .custom-wc-tabs ul.tabs {
+        /* .custom-wc-tabs ul.tabs {
             display: flex;
             overflow-x: auto;
             white-space: nowrap;
@@ -83,6 +81,38 @@ function custom_wc_tabs_shortcode()
 
         .custom-wc-tabs ul.tabs::-webkit-scrollbar {
             display: none;
+        } */
+
+        .custom-wc-tabs ul.tabs {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px 0;
+            margin: 0 0 20px 0;
+            scrollbar-width: thin;
+            scrollbar-color: #00c6ff #f0f0f0;
+            gap: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+        }
+
+        /* Untuk Chrome, Edge, dan Safari */
+        .custom-wc-tabs ul.tabs::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .custom-wc-tabs ul.tabs::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .custom-wc-tabs ul.tabs::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, #007bff, #00c6ff);
+            border-radius: 10px;
+        }
+
+        .custom-wc-tabs ul.tabs::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(90deg, #0056b3, #00aaff);
         }
 
         .custom-wc-tabs ul.tabs li {
