@@ -9,6 +9,18 @@
 
 if (! defined('ABSPATH')) exit;
 
+// function enqueue_lottiefiles_script_in_head()
+// {
+//     wp_enqueue_script(
+//         'lottiefiles-player',
+//         'https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js',
+//         [],
+//         null,
+//         false // false = load di head
+//     );
+// }
+// add_action('wp_enqueue_scripts', 'enqueue_lottiefiles_script_in_head');
+
 function cfu_post_edit_form_tag()
 {
     echo ' enctype="multipart/form-data"';
@@ -107,12 +119,16 @@ function cfu_frontend_display($atts)
         .cfu-flex-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.25rem;
+            column-gap: 0.3rem;
+            /* jarak horizontal */
+            row-gap: 0.5rem;
+            /* jarak vertikal */
+            align-items: flex-start;
         }
 
         .cfu-preview,
         .cfu-info {
-            flex: 1 1 45%;
+            flex: 1 1 48%;
         }
 
         @media (max-width: 768px) {
@@ -134,7 +150,7 @@ function cfu_frontend_display($atts)
         }
 
         .cfu-preview {
-            margin-bottom: 2rem;
+            margin-bottom: 0.35rem;
         }
 
         .cfu-preview iframe {
@@ -151,7 +167,9 @@ function cfu_frontend_display($atts)
         }
 
         .cfu-info {
-            padding: 0 1rem;
+            /* padding: 0 1rem;
+             */
+            padding: 0 0.35rem;
         }
 
         .list-group {
@@ -420,9 +438,14 @@ function cfu_enqueue_sweetalert_script()
                     overlay.style.display = 'block';
                     overlay.innerHTML = `
                         <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
-                            <img src="https://ski-birojasa.com/wp-content/uploads/2025/05/363c2ec45f7668e82807a0c053d1e1d0.gif" 
-                                alt="Loading..." 
-                                style="width: 350px; height: 350px;">
+                            <dotlottie-player
+                                src="https://lottie.host/51d98366-f849-40d4-b9d4-1d4cc4bd64d9/rvXb53DPyL.lottie"
+                                background="transparent"
+                                speed="1"
+                                style="width: 150px; height: 150px"
+                                loop
+                                autoplay
+                                ></dotlottie-player>
                             <div style="color: #fff; margin-top: -5rem; font-weight: 800; font-size: 1.3rem;">Memuat...</div>
                         </div>
                     `;
@@ -431,7 +454,7 @@ function cfu_enqueue_sweetalert_script()
                     setTimeout(() => {
                         overlay.innerHTML = ''; // remove spinner
                         document.getElementById('cfu-ninja-form-popup').style.display = 'block';
-                    }, 2000);
+                    }, 3000);
                 });
             }
         });

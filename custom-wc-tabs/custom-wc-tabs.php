@@ -6,6 +6,18 @@ Version: 1.1
 Author: Puji Ermanto<dev@codesyariah.co.id> | AKA Mamam Yuk | AKA Janji Mas Joni
 */
 
+// function enqueue_lottiefiles_script_in_head()
+// {
+//     wp_enqueue_script(
+//         'lottiefiles-player',
+//         'https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs',
+//         [],
+//         null,
+//         false // false = load di head
+//     );
+// }
+// add_action('wp_enqueue_scripts', 'enqueue_lottiefiles_script_in_head');
+
 function custom_wc_tabs_shortcode()
 {
     ob_start();
@@ -305,8 +317,17 @@ function custom_wc_tabs_shortcode()
             ?>
         </ul>
 
-        <div class="product-loader">
+        <!-- <div class="product-loader">
             <div class="spinner"></div>
+        </div> -->
+        <div class="product-loader">
+            <dotlottie-player
+                src="https://lottie.host/1daaa55d-9271-40ce-8679-34774e07e254/2kUEuB2wFr.lottie"
+                background="transparent"
+                speed="1"
+                style="width: 150px; height: 150px"
+                loop
+                autoplay></dotlottie-player>
         </div>
 
         <div class="product-wrapper">
@@ -370,8 +391,10 @@ function custom_wc_tabs_shortcode()
                         })
                         .then(response => response.text())
                         .then(data => {
-                            productList.innerHTML = data;
-                            loader.style.display = 'none';
+                            setTimeout(() => {
+                                productList.innerHTML = data;
+                                loader.style.display = 'none';
+                            }, 2500)
                         });
                 });
             });
