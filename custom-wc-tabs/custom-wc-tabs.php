@@ -29,6 +29,18 @@ function custom_wc_tabs_shortcode()
             display: block;
         }
 
+        .custom-wc-tabs ul.tabs.sticky {
+            position: fixed;
+            top: 11.7rem;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            /* biar keliatan clear */
+            z-index: 9999;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+
         /* .custom-wc-tabs ul.tabs {
             display: flex;
             overflow-x: auto;
@@ -294,6 +306,10 @@ function custom_wc_tabs_shortcode()
             .custom-wc-tabs .product-list {
                 grid-template-columns: 1fr !important;
             }
+
+            .custom-wc-tabs ul.tabs.sticky {
+                top: 8rem;
+            }
         }
     </style>
 
@@ -400,6 +416,28 @@ function custom_wc_tabs_shortcode()
             });
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelector('.custom-wc-tabs ul.tabs');
+            const productCard = document.querySelector('.custom-wc-tabs .product-card');
+
+            if (tabs && productCard) {
+                const offsetTop = productCard.offsetTop;
+                console.log(window.scrollY);
+                console.log(offsetTop);
+
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY >= offsetTop) {
+                        tabs.classList.add('sticky');
+                    } else {
+                        tabs.classList.remove('sticky');
+                    }
+                });
+            }
+        });
+    </script>
+
 
 
     <?php
