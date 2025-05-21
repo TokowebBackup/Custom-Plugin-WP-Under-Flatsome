@@ -118,6 +118,7 @@ function custom_wc_tabs_shortcode()
             gap: 10px;
             background-color: rgba(255, 255, 255, 0.5);
             border-radius: 8px;
+            scrollbar-gutter: stable both-edges;
         }
 
         /* Untuk Chrome, Edge, dan Safari */
