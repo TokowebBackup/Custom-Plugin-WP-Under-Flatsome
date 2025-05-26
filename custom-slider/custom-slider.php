@@ -4,7 +4,7 @@
  * Plugin Name: Custom Slider Plugin
  * Description: A custom slider with custom post type and Swiper.js integration.
  * Version: 1.0
- * Created By: Puji Ermanto<puji_dev@websiteaing.com> | AKA Joni Kemod | AKA BRANDALS
+ * Author: <a href="https://pujiermanto-portfolio.vercel.app">Puji Ermanto<puji_dev@websiteaing.com> | AKA Joni Kemod | AKA BRANDALS | AKA Dadang Yang Sebenarnya | AKA Mamang gitu loh</a>
  */
 
 include_once plugin_dir_path(__FILE__) . 'post-type.php';
